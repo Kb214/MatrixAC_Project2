@@ -4,5 +4,5 @@ Bob np np r r r/w
 Charlie np np np r/w r/w
 Daisy r r r/w r np
 Emmy np np np np np
-
-
+Linsey r w/r np np r
+Jared w/r w/r r r np
