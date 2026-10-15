@@ -1,6 +1,11 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
+#include <unordered_map>
+
+struct Permiss{
+
+};
 
 int main(){
     //reading
@@ -53,6 +58,20 @@ int main(){
     }
 
     in.close();
+
+
+    std::string input; 
+    std::unordered_map<std::string, std::unordered_map<std::string,std::string> >EmpolyeePerm;
+    EmpolyeePerm["Alice"]["File1"] = "r/w";
+    EmpolyeePerm["Alice"]["File2"] = "r/w";
+    EmpolyeePerm["Alice"]["File3"] = "r";
+    EmpolyeePerm["Alice"]["File4"] = "r";
+    EmpolyeePerm["Alice"]["File5"] = "r";
+
+    //how to input with reading??
+
+    
+
 
     return 0;
 }
