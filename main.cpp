@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <fstream>
 #include <unordered_map>
+#include <sstream>
 
 struct Permiss{
 
@@ -70,22 +71,22 @@ int main(){
 
     //how to input with reading??
 
-    std::string File1, File2,File3,File4,File5;
+    std::string File;
     std::string Subject; 
     std::string per;
     std::string line;
-
-    in.open("MAC.txt");
-    
     std::istringstream ss(line);
+    in.open("MAC.txt");
 
 
-    while(ss >> Subject >> File1 >> File2 >> File3 >> File4 >> File5){
-        EmpolyeePerm[Subject][File1]=per;
-        EmpolyeePerm[Subject][File2]=per;
-        EmpolyeePerm[Subject][File3]=per;
-        EmpolyeePerm[Subject][File4]=per;
-        EmpolyeePerm[Subject][File5]=per;
+    while(getline(in, line)){
+        if(ss >> Subject >> File)
+
+        EmpolyeePerm[Subject][File]=per;
+        EmpolyeePerm[Subject][File]=per;
+        EmpolyeePerm[Subject][File]=per;
+        EmpolyeePerm[Subject][File]=per;
+        EmpolyeePerm[Subject][File]=per;
 
     }
 

@@ -1,5 +1,25 @@
-Alice r/w r/w r r r
-Bob np np r r r/w
-Charlie np np np r/w r/w
-Daisy r r r/w r np
-Emmy np np np np np
+Alice File1 r/w
+Alice File2 r/w
+Alice File3 r
+Alice File4 r
+Alice File5 r
+Bob File1 np
+Bob File2 np
+Bob File3 r
+Bob File4 r
+Bob File5 r/w
+Charlie File1 np
+Charlie File2 np
+Charlie File3 np
+Charlie File4 r/w
+Charlie File5 r/w
+Daisy File1 r
+Daisy File2 r
+Daisy File3 r/w
+Daisy File4 r
+Daisy File5 np
+Emmy File1 np
+Emmy File2 np
+Emmy File3 np
+Emmy File4 np
+Emmy File5 np
