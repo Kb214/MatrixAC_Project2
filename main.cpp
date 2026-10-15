@@ -62,15 +62,36 @@ int main(){
 
     std::string input; 
     std::unordered_map<std::string, std::unordered_map<std::string,std::string> >EmpolyeePerm;
-    EmpolyeePerm["Alice"]["File1"] = "r/w";
-    EmpolyeePerm["Alice"]["File2"] = "r/w";
-    EmpolyeePerm["Alice"]["File3"] = "r";
-    EmpolyeePerm["Alice"]["File4"] = "r";
-    EmpolyeePerm["Alice"]["File5"] = "r";
+    // EmpolyeePerm["Alice"]["File1"] = "r/w";
+    // EmpolyeePerm["Alice"]["File2"] = "r/w";
+    // EmpolyeePerm["Alice"]["File3"] = "r";
+    // EmpolyeePerm["Alice"]["File4"] = "r";
+    // EmpolyeePerm["Alice"]["File5"] = "r";
 
     //how to input with reading??
 
+    std::string File1, File2,File3,File4,File5;
+    std::string Subject; 
+    std::string per;
+    std::string line;
+
+    in.open("MAC.txt");
     
+    std::istringstream ss(line);
+
+
+    while(ss >> Subject >> File1 >> File2 >> File3 >> File4 >> File5){
+        EmpolyeePerm[Subject][File1]=per;
+        EmpolyeePerm[Subject][File2]=per;
+        EmpolyeePerm[Subject][File3]=per;
+        EmpolyeePerm[Subject][File4]=per;
+        EmpolyeePerm[Subject][File5]=per;
+
+    }
+
+    in.close();
+
+
 
 
     return 0;
