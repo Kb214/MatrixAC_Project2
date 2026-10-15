@@ -16,12 +16,16 @@ int main(){
     int count;
     char ch;
 
-    while(in >> item){
+    while(in >> std::noskipws >> ch){
+        in >> item;
         if(ch == '\n'){
             std::cout << "\n";
         }
-        std::cout << item;
+        std::cout << item << " ";
     }
+
+
+    
 
     return 0;
 }
