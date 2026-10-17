@@ -1,8 +1,9 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
-#include <unordered_map>
+#include <map>
 #include <sstream>
+#include <vector>
 
 struct Permiss{
 
@@ -38,8 +39,8 @@ int main(){
 
     std::ofstream out;
     out.open("MAC.txt",std::ios::app);
-    out << "\nLinsey r w/r np np r";
-    out << "\nJared w/r w/r r r np";
+    // out << "\nLinsey r w/r np np r";
+    // out << "\nJared w/r w/r r r np";
     out.close();
 
 
@@ -62,7 +63,8 @@ int main(){
 
 
     std::string input; 
-    std::unordered_map<std::string, std::unordered_map<std::string,std::string> >EmpolyeePerm;
+    std::map<std::string, std::map<std::string,std::string> >EmpolyeePerm;
+    std::vector<std::string> files = {"File1", "File2", "File3", "File4", "File5"};
     // EmpolyeePerm["Alice"]["File1"] = "r/w";
     // EmpolyeePerm["Alice"]["File2"] = "r/w";
     // EmpolyeePerm["Alice"]["File3"] = "r";
@@ -71,27 +73,74 @@ int main(){
 
     //how to input with reading??
 
-    std::string File;
-    std::string Subject; 
-    std::string per;
+
     std::string line;
-    std::istringstream ss(line);
+
+
     in.open("MAC.txt");
+
+    //to add into map 
 
 
     while(getline(in, line)){
-        if(ss >> Subject >> File)
+        std::istringstream ss(line);
+        std::string Subject; 
+        std::vector<std::string>permissions;
+        std::string per;
 
-        EmpolyeePerm[Subject][File]=per;
-        EmpolyeePerm[Subject][File]=per;
-        EmpolyeePerm[Subject][File]=per;
-        EmpolyeePerm[Subject][File]=per;
-        EmpolyeePerm[Subject][File]=per;
+        if(!(ss >> Subject)){
+            continue;
+        }
+
+        while(ss >> per){
+            permissions.push_back(per);
+        }
+
+        if(permissions.size() != files.size()){
+            continue;
+        }
+
+        for( auto i = 0; i< files.size(); ++i){
+            EmpolyeePerm[Subject][files[i]] = permissions[i];
+        }
 
     }
 
     in.close();
 
+    std::cout << "\n\n";
+
+    //to print out
+
+    for (const auto& outer_pair : EmpolyeePerm){
+        std::cout << outer_pair.first;
+        for(const auto& inner_pair : outer_pair.second){
+            std::cout << "\n";
+            std::cout << " has permission " << inner_pair.second << " in " << inner_pair.first;
+        }
+
+        std::cout << "\n";
+    }
+
+    // std::unordered_map<std::string, std::unordered_map<std::string,std::string>>::iterator itr;
+    // std::unordered_map<std::string,std::string>::iterator ptr;
+
+    // for(itr = EmpolyeePerm.begin(); itr != EmpolyeePerm.end(); itr++){
+
+    //     for(ptr = itr->second.begin(); ptr != itr->second.end(); ptr++){
+
+    //         std::cout << itr->first << " permission in file " << ptr->first << " is " << ptr->second << "\n";
+
+    //     }
+
+    // }
+
+    
+
+
+
+
+    //
 
 
 
