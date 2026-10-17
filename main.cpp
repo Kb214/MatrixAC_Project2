@@ -140,7 +140,11 @@ int main(){
 
 
 
-    //
+    //adding people to MAC.txt
+    //read like we read the file lines with getline
+
+    std::cout << "add people to the text file.\n\n";
+
 
 
 
