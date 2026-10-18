@@ -4,3 +4,5 @@ Charlie np np np r/w r/w
 Daisy r r r/w r np
 Emmy np np np np np
 Linsey r r r/w r/w np
+Joshua r r np np r/w
+Mac r/w r/w np r r
