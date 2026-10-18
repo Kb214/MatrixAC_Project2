@@ -3,5 +3,3 @@ Bob np np r r r/w
 Charlie np np np r/w r/w
 Daisy r r r/w r np
 Emmy np np np np np
-Crole r np np np np
-Linsey np np r/w r r/w

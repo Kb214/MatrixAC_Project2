@@ -233,6 +233,52 @@ int main(){
     }
 
 
+    //accessing files
+    //Subject file# --> we do something based on the value
+    //need to know how to access based on key inputs
+    //use algorithms to look through and validate
+
+    std::string SFL;
+    std::string fileNumb;
+
+    std::getline(std::cin, SFL);
+    std::istringstream SubjectAccess(SFL);
+
+    if(SubjectAccess >> Subject >> fileNumb){
+
+        for (const auto& outer_pair : EmpolyeePerm){
+
+            if(outer_pair.first == Subject){
+                std::cout << outer_pair.first << " Found!\n";
+
+                for(const auto& inner_pair : outer_pair.second){
+
+                    if(inner_pair.first == fileNumb){
+                        std::cout <<  inner_pair.first << " Found!\n";
+                        
+                        if(inner_pair.second == "r" || inner_pair.second == "r/w"){
+                            std::cout << "\nEmployee " << outer_pair.first << " has permission " << inner_pair.second << "\n";
+                            std::cout << "Opening " << inner_pair.first << " for " << inner_pair.second << "\n";  
+                        }else if(inner_pair.second == "np"){
+                            std::cout << "\nEmployee " << outer_pair.first << "does not have persmission to access " << inner_pair.first << "\n";
+                        }else{
+                            std::cout << "\nCannot read employee permissions. Try again.\n";
+                        }
+
+                        
+                    }
+                    continue;
+                }
+
+            }
+            continue;
+        }
+
+
+    }
+
+    
+
 
     return 0;
 }
