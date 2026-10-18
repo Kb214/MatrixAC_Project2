@@ -5,9 +5,6 @@
 #include <sstream>
 #include <vector>
 
-struct Permiss{
-
-};
 
 int main(){
     //reading
@@ -259,6 +256,21 @@ int main(){
                         if(inner_pair.second == "r" || inner_pair.second == "r/w"){
                             std::cout << "\nEmployee " << outer_pair.first << " has permission " << inner_pair.second << "\n";
                             std::cout << "Opening " << inner_pair.first << " for " << inner_pair.second << "\n";  
+                            if(inner_pair.second == "r"){
+                                //use in
+                                in.open(inner_pair.first);
+                                //read contents of file
+                                in.close();
+        
+
+                            }else if(inner_pair.second == "r/w"){
+                                //use out
+                                in.open(inner_pair.first);
+                                //print contents of file to read
+                                //give person option to write
+
+                                in.close();
+                            }
                         }else if(inner_pair.second == "np"){
                             std::cout << "\nEmployee " << outer_pair.first << "does not have persmission to access " << inner_pair.first << "\n";
                         }else{
