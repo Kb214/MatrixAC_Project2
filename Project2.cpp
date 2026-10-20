@@ -8,7 +8,7 @@
 //add functions:  AddUser, OutputUserstxt, OutputUsersmap, AccessFiles, ChangeUserPerm
 //  std::string& sub,  std::string& p1,  std::string& p2, std::string& p3, std::string& p4, std::string& p5
 
-void AddUser(std::string& input){
+void AddUser(const std::string& input){
     std::string perm1, perm2, perm3, perm4, perm5, sub;
     std::istringstream NS(input);
 
@@ -51,7 +51,7 @@ void OutputUsermap(std::map<std::string, std::map<std::string,std::string>>& EP)
 
 
 
-void SaveUsermap(std::map<std::string, std::map<std::string,std::string>>& EP, std::vector<std::string>& f){
+void SaveUsermap(std::map<std::string, std::map<std::string,std::string>>& EP, const std::vector<std::string>& f){
     std::string line;
     std::ifstream in("MAC.txt", std::ios::app);
 
@@ -84,7 +84,7 @@ void SaveUsermap(std::map<std::string, std::map<std::string,std::string>>& EP, s
 
 
 
-void AccessFiles(std::map<std::string, std::map<std::string,std::string>>& EP, std::string Subfilelook){
+void AccessFiles(std::map<std::string, std::map<std::string,std::string>>& EP, const std::string& Subfilelook){
    
     std::string fileNumb;
     std::string Subject;
@@ -132,11 +132,44 @@ void AccessFiles(std::map<std::string, std::map<std::string,std::string>>& EP, s
 
 
 
-void ChangeUserPerm(std::map<std::string, std::map<std::string,std::string>>& EP, std::vector<std::string>& f){
-    //figure out how to change user permission without over writting the entire file ALSO without adding it on 
+void ChangeUserPerm(std::map<std::string, std::map<std::string,std::string>>& EP, const std::vector<std::string>& f, const std::string& input){
+    //figure out how to change user permission without over writting the entire file ALSO without apending it on 
     //Must change value in the map and in the text file
+    //format: Employee fileNumber
+    std::ifstream in; 
+    std::istringstream ss(input);
+    std::string employee;
+    std::string fileName;
+    std::string newPermission;
 
 
+    if(ss >> employee >> fileName >> newPermission){
+
+        EP.find(employee);
+        std::find(f.begin(), f.end(), fileName);
+
+        if(!(newPermission == "r" || newPermission == "r/w" || newPermission == "np")){
+            std::cout << "Invalid permission!!";
+        }
+
+        EP[employee][fileName] = newPermission;
+
+    }
+
+    std::ofstream out("MAC copy.txt");
+
+    for (const auto& outer_pair : EP){
+        out << outer_pair.first;
+        out << " ";
+        for(const auto& inner_pair : outer_pair.second){
+            out << inner_pair.second;
+            out << " ";
+            
+        }
+        out << "\n";
+    }
+    
+    
 
 }
 
@@ -150,6 +183,7 @@ int main(){
     std::string newUser;
     std::string SFL;
     std::string user;
+    std::string newPerm; 
     int op;
     SaveUsermap(EmpolyeePerm, files);
    
@@ -189,6 +223,13 @@ int main(){
                
             }else if(op == 3){
                 //update user permission
+
+                std::cout << "Update User Permission (Format: Employee FileName): ";
+                std::cin.ignore();
+                std::getline(std::cin,newPerm);
+
+                ChangeUserPerm(EmpolyeePerm,files,newPerm);
+                std::cout << "\n";
 
 
             }else if(op == 4){
