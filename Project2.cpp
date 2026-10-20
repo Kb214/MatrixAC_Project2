@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <vector>
+#include <limits>
 
 //add functions:  AddUser, OutputUserstxt, OutputUsersmap, AccessFiles, ChangeUserPerm
 //  std::string& sub,  std::string& p1,  std::string& p2, std::string& p3, std::string& p4, std::string& p5
@@ -201,13 +202,29 @@ int main(){
 
     if (user == "Admin"){
 
-        while(op != 5){
+        while(true){
 
             std::cout << "1. Add User and Permissions\n2. Read Users and Permissions\n3. Update User Permission\n4. Authorize Access of User\n5. Exit\n\n";
             std::cout << "OPTION:";
-            std::cin >> op; 
 
-            if(op == 1){
+
+
+            if(!(std::cin >> op)){
+
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Not Available Choose numbers from 1 to 5\n\n";
+                continue;
+                
+
+            }else if(op < 1 || op > 5){
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Not Available Choose numbers from 1 to 5\n\n";
+                continue;
+              
+
+            }else if(op == 1){
                 std::cin.ignore();
                 std::cout << "\nEnter New User: ";
                 std::getline(std::cin, newUser);
@@ -224,7 +241,7 @@ int main(){
             }else if(op == 3){
                 //update user permission
 
-                std::cout << "Update User Permission (Format: Employee FileName): ";
+                std::cout << "Update User Permission (Format: Employee    File Name    New Permission): ";
                 std::cin.ignore();
                 std::getline(std::cin,newPerm);
 
@@ -241,12 +258,12 @@ int main(){
                 AccessFiles(EmpolyeePerm, SFL);
                 std::cout << "\n";
 
-            }else{
-
+            } else {
                 std::cout << "    ===== EXITING... ====    \n";
-                continue;
+                break; 
             }
 
+            std::cin >> op; 
 
 
         }
@@ -254,7 +271,7 @@ int main(){
        
     }else{
 
-        std::cout << "ACCESS DENIED: You are not allowed to access this Matrix system!!";
+        std::cout << "ACCESS DENIED: You are not allowed to access this Matrix system!!\n\n";
 
     }
 
