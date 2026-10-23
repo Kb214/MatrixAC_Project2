@@ -270,7 +270,7 @@ int main(){
                 SaveUsermap(EmpolyeePerm, files);
 
             }else if(op == 2){
-                std::cout << "\n\n Your Employees: \n\n";
+                std::cout << "\n\n Your Employees (Employee Perm1 Perm2 Perm3 Perm4 Perm5): \n\n";
                 OutputUsermap(EmpolyeePerm);
                
             }else if(op == 3){
