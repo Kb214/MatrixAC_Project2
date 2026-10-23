@@ -13,27 +13,24 @@ void AddUser(const std::string& input){
     std::string perm1, perm2, perm3, perm4, perm5, sub;
     std::istringstream NS(input);
 
-
-    if(NS >> sub >> perm1 >> perm2 >> perm3 >> perm4 >> perm5){
-        std::ofstream out("MAC.txt",std::ios::app);
-        if(!out){
-            return;
-        }
-
-        out << '\n' << sub << ' ' << perm1 << ' ' << perm2 << ' ' << perm3 << ' ' << perm4 << ' ' << perm5;
-
-       
+    if(!(NS >> sub >> perm1 >> perm2 >> perm3 >> perm4 >> perm5) || (NS >> std::ws && !NS.eof())){
+        std::cout << "\nWrong Format, Try Again!!\n\n";
+        return;
     }
 
+    std::ofstream out("MAC.txt", std::ios::app);
 
-    
+    if(!out){
+        std::cout << "Could not save new user to MAC.txt\n";
+        return;
+    }
+
+    out << '\n' << sub << ' ' << perm1 << ' ' << perm2 << ' ' << perm3 << ' ' << perm4 << ' ' << perm5;
+    if(!out){
+        std::cout << "Could not finish saving new user to MAC.txt\n";
+    }
 }
 
-
-
-// void OutputUsertxt(){
-  
-// }
 
 
 
@@ -54,7 +51,7 @@ void OutputUsermap(std::map<std::string, std::map<std::string,std::string>>& EP)
 
 void SaveUsermap(std::map<std::string, std::map<std::string,std::string>>& EP, const std::vector<std::string>& f){
     std::string line;
-    std::ifstream in("MAC.txt", std::ios::app);
+    std::ifstream in("MAC.txt");
 
     while(getline(in, line)){
         std::istringstream ss(line);
@@ -134,43 +131,64 @@ void AccessFiles(std::map<std::string, std::map<std::string,std::string>>& EP, c
 
 
 void ChangeUserPerm(std::map<std::string, std::map<std::string,std::string>>& EP, const std::vector<std::string>& f, const std::string& input){
-    //figure out how to change user permission without over writting the entire file ALSO without apending it on 
-    //Must change value in the map and in the text file
-    //format: Employee fileNumber
-    std::ifstream in; 
     std::istringstream ss(input);
     std::string employee;
     std::string fileName;
     std::string newPermission;
 
-
-    if(ss >> employee >> fileName >> newPermission){
-
-        EP.find(employee);
-        std::find(f.begin(), f.end(), fileName);
-
-        if(!(newPermission == "r" || newPermission == "r/w" || newPermission == "np")){
-            std::cout << "Invalid permission!!";
-        }
-
-        EP[employee][fileName] = newPermission;
-
+    if(!(ss >> employee >> fileName >> newPermission)){
+        std::cout << "\nWrong format, try again!\n";
+        return;
     }
 
-    std::ofstream out("MAC copy.txt");
+    auto employeeIT = EP.find(employee);
+    auto fileIT = std::find(f.begin(), f.end(), fileName);
+
+
+    if(employeeIT == EP.end()){
+        std::cout << "\nEmployee Not Found\n";
+        return;
+    }
+    if(fileIT == f.end()){
+        std::cout << "\nFile Not Found\n";
+        return;
+    }
+    if(!(newPermission == "r" || newPermission == "r/w" || newPermission == "np")){
+        std::cout << "\nInvalid permission!!\n";
+        return;
+    }
+
+    for(const auto& outer_pair : EP){
+        for(const auto& file : f){
+            if(outer_pair.second.find(file) == outer_pair.second.end()){
+                std::cout << "Could not save permissions: missing!!" << file
+                          << " for " << outer_pair.first << '\n';
+                return;
+            }
+        }
+    }
+
+    std::ofstream out("MAC.txt");
+
+    if(!out){
+        std::cout << "\nCould not save permissions to MAC.txt\n";
+        return;
+    }
+
+    employeeIT->second[fileName] = newPermission;
 
     for (const auto& outer_pair : EP){
         out << outer_pair.first;
-        out << " ";
-        for(const auto& inner_pair : outer_pair.second){
-            out << inner_pair.second;
-            out << " ";
-            
+        for(const auto& file : f){
+            auto permission = outer_pair.second.find(file);
+            out << ' ' << permission->second;
         }
         out << "\n";
     }
-    
-    
+    if(!out){
+        std::cout << "\nCould not finish saving permissions to MAC.txt\n";
+    }
+
 
 }
 
@@ -189,11 +207,7 @@ int main(){
     SaveUsermap(EmpolyeePerm, files);
    
    
-    // std::string choice = "y";
-    
-    
-
-
+   
 
 
     std::cout << "Welcome to the Access Control Matrix! To get started, who are you?\n";
@@ -207,25 +221,26 @@ int main(){
             std::cout << "1. Add User and Permissions\n2. Read Users and Permissions\n3. Update User Permission\n4. Authorize Access of User\n5. Exit\n\n";
             std::cout << "OPTION:";
 
-
+        
 
             if(!(std::cin >> op)){
 
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Not Available Choose numbers from 1 to 5\n\n";
-                continue;
+                if(std::cin.eof()){
+                    break;
+                }
                 
-
-            }else if(op < 1 || op > 5){
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Not Available Choose numbers from 1 to 5\n\n";
                 continue;
-              
+            }
 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            if(op < 1 || op > 5){
+                std::cout << "Not Available Choose numbers from 1 to 5\n\n";
+                continue;
             }else if(op == 1){
-                std::cin.ignore();
                 std::cout << "\nEnter New User: ";
                 std::getline(std::cin, newUser);
             
@@ -240,19 +255,16 @@ int main(){
                
             }else if(op == 3){
                 //update user permission
-
                 std::cout << "Update User Permission (Format: Employee    File Name    New Permission): ";
-                std::cin.ignore();
                 std::getline(std::cin,newPerm);
 
                 ChangeUserPerm(EmpolyeePerm,files,newPerm);
                 std::cout << "\n";
-
-
+            
+        
             }else if(op == 4){
                 
                 std::cout << "Employee and Their File Permission You Want to Authorize (Name FileName): ";
-                std::cin.ignore();
                 std::getline(std::cin, SFL);
     
                 AccessFiles(EmpolyeePerm, SFL);
@@ -262,10 +274,6 @@ int main(){
                 std::cout << "    ===== EXITING... ====    \n";
                 break; 
             }
-
-            std::cin >> op; 
-
-
         }
 
        

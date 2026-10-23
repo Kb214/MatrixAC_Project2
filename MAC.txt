@@ -6,3 +6,4 @@ Emmy np np np np np
 Linsey r r r/w r/w np
 Joshua r r np np r/w
 Mac r/w r/w np r r
+Fred r r/w r/w np np
