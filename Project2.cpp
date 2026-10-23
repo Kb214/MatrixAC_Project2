@@ -106,6 +106,26 @@ void AccessFiles(std::map<std::string, std::map<std::string,std::string>>& EP, c
                         if(inner_pair.second == "r" || inner_pair.second == "r/w"){
                             std::cout << "\nEmployee " << outer_pair.first << " has permission " << inner_pair.second << "\n";
                             std::cout << "Opening " << inner_pair.first << " for " << inner_pair.second << "\n";  
+
+                            
+                            std::ifstream file;
+                            std::string fullFile = inner_pair.first + ".txt";
+                            file.open(fullFile);
+                            std::string item;
+                            
+
+                            while(file >> item){
+                                std::cout << item << " ";
+                                char ch; 
+                                if(file >> std::noskipws >> ch){
+                                    if(ch == '\n'){
+                                        std::cout << "\n";
+                                    }
+                                }
+                            }
+                            std::cout << "\n";
+                            file.close();
+                        
                            
                         
                         }else if(inner_pair.second == "np"){
