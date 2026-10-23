@@ -90,61 +90,83 @@ void AccessFiles(std::map<std::string, std::map<std::string,std::string>>& EP, c
 
     
     std::istringstream SubjectAccess(Subfilelook);
+    if(!(SubjectAccess >> Subject >> fileNumb)){
 
-    if(SubjectAccess >> Subject >> fileNumb){
+        std::cout << "\nWrong Format! Try Again!!\n";
+        return;
 
-        for (const auto& outer_pair : EP){
+    } 
 
-            if(outer_pair.first == Subject){
-                std::cout << outer_pair.first << " Found!\n";
+   
+        
+    for (const auto& outer_pair : EP){
 
-                for(const auto& inner_pair : outer_pair.second){
 
-                    if(inner_pair.first == fileNumb){
-                        std::cout <<  inner_pair.first << " Found!\n";
-                        
-                        if(inner_pair.second == "r" || inner_pair.second == "r/w"){
-                            std::cout << "\nEmployee " << outer_pair.first << " has permission " << inner_pair.second << "\n";
-                            std::cout << "Opening " << inner_pair.first << " for " << inner_pair.second << "\n";  
+        if(outer_pair.first != Subject){
+            std::cout << "\nEmployee Not Found!\n";
+            break;
+        }
 
-                            
-                            std::ifstream file;
-                            std::string fullFile = inner_pair.first + ".txt";
-                            file.open(fullFile);
-                            std::string item;
-                            
+        std::cout << outer_pair.first << " Found!\n";
 
-                            while(file >> item){
-                                std::cout << item << " ";
-                                char ch; 
-                                if(file >> std::noskipws >> ch){
-                                    if(ch == '\n'){
-                                        std::cout << "\n";
-                                    }
-                                }
-                            }
+
+
+        for(const auto& inner_pair : outer_pair.second){
+            
+            if(inner_pair.first != fileNumb){
+                std::cout << "\nFile not found!!\n";
+                break;
+            }
+
+            std::cout <<  inner_pair.first << " Found!\n";
+
+            if(inner_pair.second == "r" || inner_pair.second == "r/w"){
+                std::cout << "\nEmployee " << outer_pair.first << " has permission " << inner_pair.second << "\n";
+                std::cout << "Opening " << inner_pair.first << " for " << inner_pair.second << "\n";  
+
+                    
+                std::ifstream file;
+                std::string fullFile = inner_pair.first + ".txt";
+                file.open(fullFile);
+                std::string item;
+                    
+
+                while(file >> item){
+                    std::cout << item << " ";
+                    char ch; 
+                    if(file >> std::noskipws >> ch){
+                        if(ch == '\n'){
                             std::cout << "\n";
-                            file.close();
-                        
-                           
-                        
-                        }else if(inner_pair.second == "np"){
-                            std::cout << "\nEmployee " << outer_pair.first << "does not have persmission to access " << inner_pair.first << "\n";
-                        }else{
-                            std::cout << "\nCannot read employee permissions. Try again.\n";
                         }
-
-                        
                     }
-                    continue;
                 }
 
+                std::cout << "\n";
+                file.close();
+            
+                        
+                    
+            }else if(inner_pair.second == "np"){
+
+                std::cout << "\nEmployee " << outer_pair.first << "does not have persmission to access " << inner_pair.first << "\n";
+
+            }else{
+
+                std::cout << "\nCannot read employee permissions. Try again.\n";
+                
             }
-            continue;
+
+
+    
+
         }
 
 
+      
+        break;
     }
+
+
 
 }
 

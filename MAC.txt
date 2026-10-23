@@ -1,9 +1,6 @@
 Alice r/w r/w r r r
 Bob np np r r r/w
 Charlie np np np r/w r/w
-Daisy r r r/w r np
+Daisy r r/w r/w r np
 Emmy np np np np np
-Linsey r r r/w r/w np
-Joshua r r np np r/w
-Mac r/w r/w np r r
-Fred r r/w r/w np np
+Linsey r r/w r np r
